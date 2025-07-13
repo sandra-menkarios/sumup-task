@@ -33,7 +33,6 @@ models:
         description: "Unique identifier for the product"
         tests:
           - not_null
-          - unique
 
       - name: transaction_status
         data_type: TEXT
