@@ -1,0 +1,70 @@
+version:  2
+
+models:
+  - name: dim_dates
+    description: ""
+    config:
+      materialized: table
+
+    columns:
+      - name: date
+        description: ""
+        tests:
+          - unique
+          - not_null
+
+      - name: year
+        description: ""
+        tests:
+          - unique
+          - not_null
+
+      - name: month
+        description: ""
+        tests:
+          - unique
+          - not_null
+
+      - name: day
+        description: ""
+        tests:
+          - unique
+          - not_null
+
+      - name: day_of_week_name
+        description: ""
+        tests:
+          - unique
+          - not_null
+
+      - name: day_of_week_index
+        description: ""
+        tests:
+          - unique
+          - not_null
+
+      - name: month_name
+        description: ""
+        tests:
+          - unique
+          - not_null
+
+      - name: week_start_date
+        description: ""
+        tests:
+          - unique
+          - not_null
+
+      - name: month_start_date
+        description: ""
+        tests:
+          - unique
+          - not_null
+
+      - name: quarter_start_date
+        description: ""
+        tests:
+          - unique
+          - not_null
+
+

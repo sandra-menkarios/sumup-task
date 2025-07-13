@@ -1,0 +1,41 @@
+version: 2
+
+models:
+  - name: mart_devices__transactions
+    description: "This table contains data related to devices and transactions"
+    config:
+      materialized: table
+      contract:
+        enforced: true
+      on_schema_change: fail
+
+    columns:
+      - name: store_id
+        data_type: INTEGER
+        description: "Unique Identifier for the store"
+        tests:
+          - not_null
+
+      - name: device_id
+        data_type: TEXT
+        description: "Unique identifier for the device"
+        tests:
+          - not_null
+
+      - name: device_type
+        data_type: INTEGER
+        description: "The device type"
+        tests:
+          - not_null
+
+      - name: transaction_status
+        data_type: TEXT
+        description: "{{ doc('transaction_status') }}"
+        tests:
+          - not_null
+
+      - name: transactions_count
+        data_type: BIGINT
+        description: "the count of transaction IDs"
+        tests:
+          - not_null

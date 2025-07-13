@@ -1,0 +1,54 @@
+version: 2
+
+models:
+  - name: fct_devices
+    description: "This table consists of the devices dimenensions"
+    config:
+      contract:
+        enforced: true
+      post-hook:
+        - "{{ 'CREATE UNIQUE INDEX IF NOT EXISTS idx_devices_device_id ON' ~ this ~ '(device_id)' }}"
+        - "{{ 'CREATE INDEX IF NOT EXISTS idx_devices_store_id ON' ~ this ~ '(store_id)' }}"
+
+    columns:
+      - name: ingested_at
+        data_type: TIMESTAMP
+        description:  "{{ doc('ingestion_time') }}"
+        tests:
+          - not_null
+
+      - name: device_id
+        data_type: TEXT
+        description: "Unique device identifier (made using combination of device ID and store ID)"
+        tests:
+          - not_null
+          - unique
+
+      - name: device_id_per_store
+        data_type: INTEGER
+        description: "The device ID unique to the store"
+        tests:
+          - not_null
+
+      - name: device_type
+        data_type: INTEGER
+        description: "The type of device (from 1 to 5)"
+        tests:
+          - not_null
+          - accepted_values:
+              values:
+                - "1"
+                - "2"
+                - "3"
+                - "4"
+                - "5"
+              quote: false
+
+      - name: store_id
+        data_type: INTEGER
+        description: "The store identifier that the device belongs to"
+        tests:
+          - not_null
+          - relationships:
+              field: store_id
+              to: ref('stg_stores')

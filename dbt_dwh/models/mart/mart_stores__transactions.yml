@@ -1,0 +1,54 @@
+version: 2
+
+models:
+  - name: mart_stores__transactions
+    description: "This table contains data related to stores and transactions"
+    config:
+      materialized: table
+      contract:
+        enforced: true
+      on_schema_change: fail
+
+    columns:
+      - name: store_id
+        data_type: INTEGER
+        description: "Unique idenfier for the store"
+        tests:
+          - not_null
+          - unique
+
+      - name: store_typology
+        data_type: TEXT
+        description: "The type of store"
+        tests:
+          - not_null
+
+      - name: store_country
+        data_type: TEXT
+        description: "The country of store"
+        tests:
+          - not_null
+
+      - name: transaction_status
+        data_type: TEXT
+        description: "{{ doc('transaction_status') }}"
+        tests:
+          - not_null
+
+      - name: stores_transactions_amount_in_eur
+        data_type: DECIMAL
+        description: "The total transaction amount of the store"
+        tests:
+          - not_null
+
+      - name: store_rank_by_status_transaction_amount
+        data_type: BIGINT
+        description: "The store rank by transaction status and transaction amount"
+        tests:
+          - not_null
+
+      - name: avg_store_age_first_5_transactions_in_days
+        data_type: DECIMAL
+        description: "The average age of the store when the first 5 transactions were completed"
+        tests:
+          - not_null

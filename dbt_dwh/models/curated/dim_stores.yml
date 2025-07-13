@@ -1,0 +1,62 @@
+version: 2
+
+models:
+  - name: fct_stores
+    description: "This table consists of the stores dimensions"
+    config:
+      materialized: table
+      post-hook:
+       -  "{{ 'CREATE UNIQUE INDEX IF NOT EXISTS idx_stores_store_id ON' ~ this ~ '(store_id)' }}"
+
+    columns:
+    - name: ingested_at
+      data_type: TIMESTAMP
+      description:  "{{ doc('ingestion_time') }}"
+      tests:
+        - not_null
+
+    - name: store_id
+      data_type: INTEGER
+      description: "Unique identifier for the store"
+      tests:
+        - not_null
+        - unique
+        - relationships:
+              field: store_id
+              to: ref('stg_stores')
+
+    - name: store_name
+      data_type: TEXT
+      description: "the store name"
+      tests:
+        - not_null
+
+    - name: store_address
+      data_type: TEXT
+      description: "The address of the store"
+      tests:
+        - not_null
+
+    - name: store_city
+      data_type: TEXT
+      description: "The city the store is in"
+      tests:
+        - not_null
+
+    - name: store_country
+      data_type: TEXT
+      description: "The country the store is in"
+      tests:
+        - not_null
+
+    - name: store_created_at
+      data_type: TIMESTAMP
+      description: "The timestamp of the store creation"
+      tests:
+        - not_null
+
+    - name: store_typology
+      data_type: TEXT
+      description: "The store type"
+      tests:
+        - not_null

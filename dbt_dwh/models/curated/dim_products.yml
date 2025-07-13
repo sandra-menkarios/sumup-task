@@ -1,0 +1,52 @@
+version: 2
+
+models:
+  - name: fct_products
+    description: "This table consists of the products dimenensions"
+    config:
+      contract:
+        enforced: true
+      post-hook:
+        - "{{ 'CREATE UNIQUE INDEX IF NOT EXISTS idx_products_product_id ON' ~ this ~ '(product_id)' }}"
+        - "{{ 'CREATE INDEX IF NOT EXISTS idx_products_store_id ON' ~ this ~ '(store_id)' }}"
+
+    columns:
+      - name: product_ingested_at
+        data_type: TIMESTAMP
+        description:  "{{ doc('ingestion_time') }}"
+        tests:
+          - not_null
+
+      - name: product_id
+        data_type: TEXT
+        description: "Key Identifier for Store and Product SKU"
+        tests:
+          - not_null
+          - unique
+
+      - name: store_id
+        data_type: INTEGER
+        description: This is the store identifier"
+        tests:
+          - not_null
+          - relationships:
+              field: store_id
+              to: ref('stg_stores')
+
+      - name: product_sku
+        data_type: INTEGER
+        description: "This unique identifier per store for the product"
+        tests:
+          - not_null
+
+      - name: product_name
+        data_type: TEXT
+        description: "This is the product name"
+        tests:
+          - not_null
+
+      - name: category_name
+        data_type: TEXT
+        description: "This is the category that the product belongs to"
+        tests:
+          - not_null

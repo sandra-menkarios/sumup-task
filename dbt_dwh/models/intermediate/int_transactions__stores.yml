@@ -1,0 +1,122 @@
+version: 2
+
+models:
+  - name: int_transactions__stores
+    description: "This table contains data about the stores, their devices and transactions"
+    config:
+      materialized: view
+      on_schema_change: append_new_columns
+
+    columns:
+
+      - name: transaction_ingested_at
+        data_type: TIMESTAMP
+        description: "{{ doc('ingestion_time') }}"
+        tests:
+          - not_null
+          - relationships:
+              field: transaction_ingested_at
+              to: ref('fct_transactions')
+
+      - name: transaction_id
+        data_type: INTEGER
+        description: "Unique identifier for the transaction"
+        tests:
+          - not_null
+          - unique
+          - relationships:
+              field: transaction_id
+              to: ref('fct_transactions')
+
+      - name: amount_eur
+        data_type: DECIMAL
+        description: "The amount in euros paid in the transaction"
+        tests:
+          - not_null
+          - relationships:
+              field: amount_eur
+              to: ref('fct_transactions')
+
+      - name: transaction_status
+        data_type: TEXT
+        description: "{{ doc('transaction_status') }}"
+        tests:
+          - not_null
+          - relationships:
+              field: transaction_status
+              to: ref('fct_transactions')
+
+      - name: product_id
+        data_type: TEXT
+        description: "The product stock keeping unit, unique by store_id"
+        tests:
+          - not_null
+          - relationships:
+              field: product_id
+              to: ref('dim_products')
+
+      - name: transaction_happened_at
+        data_type: TIMESTAMP
+        description: "The timestamp of the transaction"
+        tests:
+          - not_null
+          - dbt_utils.expression_is_true:
+              expression: ">= store_created_at"
+              where: "store_created_at IS NOT NULL"
+          - relationships:
+              field: transaction_happened_at
+              to: ref('fct_transactions')
+
+      - name: store_id
+        data_type: INTEGER
+        description: "Unique identifier for the store"
+        tests:
+          - not_null
+          - relationships:
+              field: store_id
+              to: ref('dim_stores')
+
+      - name: store_typology
+        data_type: TEXT
+        description: "The type of store"
+        tests:
+          - not_null
+          - relationships:
+              field: store_typology
+              to: ref('dim_stores')
+
+      - name: store_country
+        data_type: TEXT
+        description: "The country of the store"
+        tests:
+          - not_null
+          - relationships:
+              field: store_country
+              to: ref('dim_stores')
+
+      - name: store_created_at
+        data_type: TIMESTAMP
+        description: "The timestamp of the store creation"
+        tests:
+          - not_null
+          - relationships:
+              field: store_created_at
+              to: ref('dim_stores')
+
+      - name: device_id
+        data_type: INTEGER
+        description: "Unique identifer for the device"
+        tests:
+          - not_null
+          - relationships:
+              field: device_id
+              to: ref('dim_devices')
+
+      - name: device_type
+        data_type: INTEGER
+        description: "The type of device (1 to 5)"
+        tests:
+          - not_null
+          - relationships:
+              field: device_type
+              to: ref('dim_devices')

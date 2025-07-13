@@ -1,0 +1,54 @@
+version: 2
+
+models:
+  - name: mart_products__transactions
+    description: "This table contains data related to products and transactions"
+    config:
+      materialized: table
+      contract:
+        enforced: true
+      on_schema_change: fail
+
+    columns:
+      - name: store_id
+        data_type: INTEGER
+        description: "Unique identifier for the store"
+        tests:
+          - not_null
+
+      - name: store_typology
+        data_type: TEXT
+        description: "The type of store"
+        tests:
+          - not_null
+
+      - name: store_country
+        data_type: TEXT
+        description: "The country of the store"
+        tests:
+          - not_null
+
+      - name: product_id
+        data_type: TEXT
+        description: "Unique identifier for the product"
+        tests:
+          - not_null
+          - unique
+
+      - name: transaction_status
+        data_type: TEXT
+        description: "{{ doc('transaction_status') }}"
+        tests:
+          - not_null
+
+      - name: products_purchased_amount_in_eur
+        data_type: DECIMAL
+        description: "The amount of purchased products in euro"
+        tests:
+          - not_null
+
+      - name: products_rank_by_amount
+        data_type: BIGINT
+        description: "The rank of the products purchased based on amount spent"
+        tests:
+          - not_null

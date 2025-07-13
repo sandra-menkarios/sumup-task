@@ -1,0 +1,62 @@
+version: 2
+
+models:
+  - name: stg_stores
+    description: "This table consists of the stores data"
+    config:
+      materialized: table
+    columns:
+    - name: ingested_at
+      data_type: TIMESTAMP
+      description:  "{{ doc('ingestion_time') }}"
+      tests:
+        - not_null
+
+    - name: store_id
+      data_type: INTEGER
+      description: "Unique identifier for the store"
+      tests:
+        - not_null
+        - unique
+
+    - name: store_name
+      data_type: TEXT
+      description: "The name of the store"
+      tests:
+        - not_null
+
+    - name: store_address
+      data_type: TEXT
+      description: "The address of the store"
+      tests:
+        - not_null
+
+    - name: store_city
+      data_type: TEXT
+      description: "The city of the store"
+      tests:
+        - not_null
+
+    - name: store_country
+      data_type: TEXT
+      description: "The country of the store"
+      tests:
+        - not_null
+
+    - name: store_created_at
+      data_type: TIMESTAMP
+      description: "The timestamp that the store was created at"
+      tests:
+        - not_null
+
+    - name: store_typology
+      data_type: TEXT
+      description: "The store type"
+      tests:
+        - not_null
+
+    - name: customer_id
+      data_type: INTEGER
+      description: "The stores' customers identifier"
+      tests:
+        - not_null

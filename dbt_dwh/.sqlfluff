@@ -1,0 +1,11 @@
+[sqlfluff]
+dialect = postgres
+templater = dbt
+exclude_rules = L009
+
+[sqlfluff:templater:dbt]
+project_dir = .
+profiles_dir = ~/.dbt
+
+[sqlfluff:rules:capitalisation.keywords]
+capitalisation_policy = lower

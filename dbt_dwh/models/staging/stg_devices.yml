@@ -1,0 +1,43 @@
+version: 2
+
+models:
+  - name: stg_devices
+    description: "This table consists of the mapping between devices and stores"
+    config:
+      materialized: table
+    columns:
+      - name: ingested_at
+        data_type: TIMESTAMP
+        description: "The ingestion timestamp of the record in the DB"
+        tests:
+          - not_null
+
+      - name: device_id
+        data_type: INTEGER
+        description: "The device identifier (unique by store ID)"
+        tests:
+          - not_null
+          - unique
+
+      - name: device_type
+        data_type: INTEGER
+        description: "The type of device (from 1 to 5)"
+        tests:
+          - not_null
+          - accepted_values:
+              values:
+                - "1"
+                - "2"
+                - "3"
+                - "4"
+                - "5"
+              quote: false
+
+      - name: store_id
+        data_type: INTEGER
+        description: "The store identifier that the device belongs to"
+        tests:
+          - not_null
+          - relationships:
+              field: store_id
+              to: ref('stg_stores')

@@ -1,0 +1,12 @@
+dbt_dwh:
+  outputs:
+    dev:
+      dbname: dwh
+      host: localhost
+      pass: postgres
+      schema: dev
+      port: 5432
+      threads: 5
+      type: postgres
+      user: postgres
+  target: dev
