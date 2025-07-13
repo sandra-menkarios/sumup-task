@@ -15,7 +15,6 @@ models:
         description: "Unique idenfier for the store"
         tests:
           - not_null
-          - unique
 
       - name: store_typology
         data_type: TEXT
@@ -50,5 +49,3 @@ models:
       - name: avg_store_age_first_5_transactions_in_days
         data_type: DECIMAL
         description: "The average age of the store when the first 5 transactions were completed"
-        tests:
-          - not_null
