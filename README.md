@@ -128,7 +128,7 @@ To set up the project locally, please follow these steps:
 1. **Clone the repository**:
 
    ```bash
-   git clone git@github.com:your-org/your-repo.git ~/projects/dbt_dwh
+   git clone git@github.com:sandra-menkarios/sumup-task.git 
 
 2. **Navigate into the project folder**:
 
@@ -152,13 +152,13 @@ To set up the project locally, please follow these steps:
 
 - Please note that since PostgreSQL is not designed as an analytical data warehouse, and its integration with dbt differs from other DWHs, I have chosen **not to partition** the tables in this project.
 
-- In a typical analytical setup, I would partition at least the `transactions` table by the `ingestion_date` field and apply that partitioning downstream to related tables. For the remaining tables, the decision would depend on the volume and nature of daily ingested data — it may not justify partitioning, and clustering could be sufficient. However, I would still evaluate query performance to ensure clustering doesn’t introduce unnecessary overhead.
+- In a typical analytical setup, I would partition at least the `transactions` table by the `ingestion_date` field and apply that partitioning downstream to related tables. For the remaining tables, the decision would depend on the volume and nature of daily ingested data - it may not justify partitioning, and clustering could be sufficient. However, I would still evaluate query performance to ensure clustering doesn’t introduce unnecessary overhead.
 
 - Regarding the **intermediate** views, since they run outside of PostgreSQL, I would implement them as **materialized views**, which allows for indexing and improved performance.
 
 - For the **curated**, I’ve added indexes on the unique keys to support efficient querying, as these tables are expected to be accessed frequently.
 
-- Additionally, I have enforced the contract at the curated and mart level to prevent accidental schema changes — such as adding new columns — from causing incorrect or unexpected results in the reporting tables and with frequently queryed tables.
+- Additionally, I have enforced the contract at the curated and mart level to prevent accidental schema changes - such as adding new columns - from causing incorrect or unexpected results in the reporting tables and with frequently queryed tables.
 
 
 ## Makefile Runs Explained
@@ -171,17 +171,19 @@ To set up the project locally, please follow these steps:
 
 4. Convert xlsx and load them into Postgres
 
-5. Run dbt models
+5. Run dbt deps
 
-6. Run dbt tests
+6. Run dbt models
 
-7. Run the analyses queries
+7. Run dbt tests
 
-8. Generate and serve dbt docs
+8. Run the analyses queries
+
+9. Generate and serve dbt docs
 
 ---
 
-## 🛆 Scripts Explained
+## Scripts Explained
 
 ### `convert_and_load.py`
 
@@ -210,6 +212,3 @@ These tables will be created in the `raw` schema:
 
 - The 5 queries are located in the analyses folder.
 - They are part of the makefile file.
-
-
-enforcing contract and condition for the timestamp happened and created
