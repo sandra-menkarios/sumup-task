@@ -4,6 +4,7 @@ models:
   - name: fct_devices
     description: "This table consists of the devices dimenensions"
     config:
+      materialized: table
       contract:
         enforced: true
       post-hook:

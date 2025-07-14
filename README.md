@@ -158,7 +158,7 @@ To set up the project locally, please follow these steps:
 
 - For the **curated**, I’ve added indexes on the unique keys to support efficient querying, as these tables are expected to be accessed frequently.
 
-- Additionally, I have enforced the contract at the mart level to prevent accidental schema changes — such as adding new columns — from causing incorrect or unexpected results in the reporting tables.
+- Additionally, I have enforced the contract at the curated and mart level to prevent accidental schema changes — such as adding new columns — from causing incorrect or unexpected results in the reporting tables and with frequently queryed tables.
 
 
 ## Makefile Runs Explained

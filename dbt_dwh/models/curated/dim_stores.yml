@@ -5,6 +5,8 @@ models:
     description: "This table consists of the stores dimensions"
     config:
       materialized: table
+      contract:
+        enforced: true
       post-hook:
        -  "{{ 'CREATE UNIQUE INDEX IF NOT EXISTS idx_stores_store_id ON' ~ this ~ '(store_id)' }}"
 
